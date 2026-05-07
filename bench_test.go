@@ -199,6 +199,35 @@ func BenchmarkZAP(b *testing.B) {
 	}
 }
 
+// BenchmarkNativeZAP — direct binary Echo over TCP. No HTTP shape,
+// no http.Request, no headers. Just length-prefixed bytes. This
+// measures the floor of what ZAP can do for in-process RPC.
+func BenchmarkNativeZAP(b *testing.B) {
+	for _, wl := range makeWorkloads() {
+		b.Run(wl.name, func(b *testing.B) {
+			srv, err := startNativeZapServer()
+			if err != nil {
+				b.Fatal(err)
+			}
+			defer srv.Close()
+			c, err := newNativeZapClient(srv.Addr())
+			if err != nil {
+				b.Fatal(err)
+			}
+			defer c.Close()
+			out := make([]byte, len(wl.body))
+			b.SetBytes(int64(len(wl.body) * 2))
+			b.ReportAllocs()
+			b.ResetTimer()
+			for i := 0; i < b.N; i++ {
+				if _, err := c.Echo(wl.body, out); err != nil {
+					b.Fatal(err)
+				}
+			}
+		})
+	}
+}
+
 // ---- memory pressure tests -----------------------------------------------
 //
 // These are not benchmarks in the testing.B sense — they drive a fixed
@@ -295,6 +324,11 @@ func TestMemoryPressure(t *testing.T) {
 			defer httpStop()
 			zapAddr, zapStop := startZAPServer(t)
 			defer zapStop()
+			natSrv, err := startNativeZapServer()
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer natSrv.Close()
 
 			httpClientTransport := &http.Transport{
 				MaxIdleConns:        100,
@@ -303,21 +337,68 @@ func TestMemoryPressure(t *testing.T) {
 			}
 
 			httpStats := runMemPressure(t, "HTTP/1.1+JSON", httpAddr, httpClientTransport, wl.body, wl.headers)
-			zapStats := runMemPressure(t, "ZAP-binary", zapAddr, zaphttp.NewTransport(zapAddr), wl.body, wl.headers)
+			zhStats := runMemPressure(t, "ZAP-HTTP (adapter)", zapAddr, zaphttp.NewTransport(zapAddr), wl.body, wl.headers)
+			natStats := runNativeZapMemPressure(t, "Native-ZAP", natSrv.Addr(), wl.body)
 
-			t.Logf("\n  workload: %s (body=%d B, headers=%d)\n  %s\n  %s\n  bytes/req: HTTP=%.0f ZAP=%.0f ratio=%.2fx\n  allocs/req: HTTP=%.1f ZAP=%.1f ratio=%.2fx\n  throughput: HTTP=%.0f req/s ZAP=%.0f req/s",
+			t.Logf("\n  workload: %s (body=%d B, headers=%d)\n  %s\n  %s\n  %s\n  bytes/req:  HTTP=%.0f  ZAP-HTTP=%.0f  Native-ZAP=%.0f\n  allocs/req: HTTP=%.1f  ZAP-HTTP=%.1f  Native-ZAP=%.1f\n  req/s:      HTTP=%.0f  ZAP-HTTP=%.0f  Native-ZAP=%.0f\n  Native-ZAP vs HTTP — bytes:%.2fx allocs:%.2fx throughput:%.2fx",
 				wl.name, len(wl.body), len(wl.headers),
-				httpStats, zapStats,
+				httpStats, zhStats, natStats,
 				float64(httpStats.totalAlloc)/float64(httpStats.reqs),
-				float64(zapStats.totalAlloc)/float64(zapStats.reqs),
-				float64(httpStats.totalAlloc)/float64(zapStats.totalAlloc),
+				float64(zhStats.totalAlloc)/float64(zhStats.reqs),
+				float64(natStats.totalAlloc)/float64(natStats.reqs),
 				float64(httpStats.mallocs)/float64(httpStats.reqs),
-				float64(zapStats.mallocs)/float64(zapStats.reqs),
-				float64(httpStats.mallocs)/float64(zapStats.mallocs),
+				float64(zhStats.mallocs)/float64(zhStats.reqs),
+				float64(natStats.mallocs)/float64(natStats.reqs),
 				float64(httpStats.reqs)/httpStats.elapsed.Seconds(),
-				float64(zapStats.reqs)/zapStats.elapsed.Seconds(),
+				float64(zhStats.reqs)/zhStats.elapsed.Seconds(),
+				float64(natStats.reqs)/natStats.elapsed.Seconds(),
+				float64(httpStats.totalAlloc)/float64(natStats.totalAlloc),
+				float64(httpStats.mallocs)/float64(natStats.mallocs),
+				(float64(natStats.reqs)/natStats.elapsed.Seconds())/(float64(httpStats.reqs)/httpStats.elapsed.Seconds()),
 			)
 		})
+	}
+}
+
+// runNativeZapMemPressure mirrors runMemPressure but uses the
+// native-ZAP client (no http.Request shape, no headers).
+func runNativeZapMemPressure(t *testing.T, name, addr string, body []byte) memStats {
+	t.Helper()
+	c, err := newNativeZapClient(addr)
+	if err != nil {
+		t.Fatalf("native dial: %v", err)
+	}
+	defer c.Close()
+	out := make([]byte, len(body))
+
+	for i := 0; i < 50; i++ {
+		if _, err := c.Echo(body, out); err != nil {
+			t.Fatalf("warmup: %v", err)
+		}
+	}
+
+	runtime.GC()
+	runtime.GC()
+	var before, after runtime.MemStats
+	runtime.ReadMemStats(&before)
+
+	start := time.Now()
+	for i := 0; i < memReqs; i++ {
+		if _, err := c.Echo(body, out); err != nil {
+			t.Fatalf("[%s] %d: %v", name, i, err)
+		}
+	}
+	elapsed := time.Since(start)
+	runtime.ReadMemStats(&after)
+	return memStats{
+		name:        name,
+		reqs:        memReqs,
+		elapsed:     elapsed,
+		totalAlloc:  after.TotalAlloc - before.TotalAlloc,
+		mallocs:     after.Mallocs - before.Mallocs,
+		gcCycles:    after.NumGC - before.NumGC,
+		heapAllocAt: after.HeapAlloc,
+		heapInuseAt: after.HeapInuse,
 	}
 }
 
