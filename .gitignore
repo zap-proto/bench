@@ -1,0 +1,3 @@
+bench-go-output.txt
+*.test
+*.out

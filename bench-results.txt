@@ -1,0 +1,86 @@
+=== RUN   TestMemoryPressure
+=== RUN   TestMemoryPressure/tiny
+    bench_test.go:308: 
+          workload: tiny (body=16 B, headers=4)
+          HTTP/1.1+JSON: 5000 reqs in 410ms (12202 req/s) | 9889.7 bytes/req | 115.3 allocs/req | 18 GCs | heap=3440 KiB
+          ZAP-binary: 5000 reqs in 445ms (11232 req/s) | 13865.7 bytes/req | 132.4 allocs/req | 27 GCs | heap=3304 KiB
+          bytes/req: HTTP=9890 ZAP=13866 ratio=0.71x
+          allocs/req: HTTP=115.3 ZAP=132.4 ratio=0.87x
+          throughput: HTTP=12202 req/s ZAP=11232 req/s
+=== RUN   TestMemoryPressure/small
+    bench_test.go:308: 
+          workload: small (body=256 B, headers=8)
+          HTTP/1.1+JSON: 5000 reqs in 567ms (8822 req/s) | 10088.5 bytes/req | 122.3 allocs/req | 22 GCs | heap=3552 KiB
+          ZAP-binary: 5000 reqs in 505ms (9892 req/s) | 15853.8 bytes/req | 149.4 allocs/req | 33 GCs | heap=3736 KiB
+          bytes/req: HTTP=10089 ZAP=15854 ratio=0.64x
+          allocs/req: HTTP=122.3 ZAP=149.4 ratio=0.82x
+          throughput: HTTP=8822 req/s ZAP=9892 req/s
+=== RUN   TestMemoryPressure/medium
+    bench_test.go:308: 
+          workload: medium (body=4096 B, headers=12)
+          HTTP/1.1+JSON: 5000 reqs in 668ms (7487 req/s) | 23641.3 bytes/req | 158.6 allocs/req | 56 GCs | heap=4024 KiB
+          ZAP-binary: 5000 reqs in 659ms (7582 req/s) | 84255.5 bytes/req | 209.7 allocs/req | 203 GCs | heap=3280 KiB
+          bytes/req: HTTP=23641 ZAP=84255 ratio=0.28x
+          allocs/req: HTTP=158.6 ZAP=209.7 ratio=0.76x
+          throughput: HTTP=7487 req/s ZAP=7582 req/s
+=== RUN   TestMemoryPressure/large
+    bench_test.go:308: 
+          workload: large (body=65536 B, headers=8)
+          HTTP/1.1+JSON: 5000 reqs in 1.29s (3875 req/s) | 193498.0 bytes/req | 144.0 allocs/req | 591 GCs | heap=4320 KiB
+          ZAP-binary: 5000 reqs in 2.604s (1920 req/s) | 1056283.1 bytes/req | 204.9 allocs/req | 2313 GCs | heap=2776 KiB
+          bytes/req: HTTP=193498 ZAP=1056283 ratio=0.18x
+          allocs/req: HTTP=144.0 ZAP=204.9 ratio=0.70x
+          throughput: HTTP=3875 req/s ZAP=1920 req/s
+--- PASS: TestMemoryPressure (7.23s)
+    --- PASS: TestMemoryPressure/tiny (0.87s)
+    --- PASS: TestMemoryPressure/small (1.09s)
+    --- PASS: TestMemoryPressure/medium (1.34s)
+    --- PASS: TestMemoryPressure/large (3.93s)
+=== RUN   TestWireBytes
+=== RUN   TestWireBytes/tiny
+    bench_test.go:362: 
+          workload: tiny (body=16 B, headers=4)
+          HTTP wire: 243 bytes
+          ZAP wire:  452 bytes
+          ratio:     0.54x (-86.0% smaller)
+=== RUN   TestWireBytes/small
+    bench_test.go:362: 
+          workload: small (body=256 B, headers=8)
+          HTTP wire: 562 bytes
+          ZAP wire:  916 bytes
+          ratio:     0.61x (-63.0% smaller)
+=== RUN   TestWireBytes/medium
+    bench_test.go:362: 
+          workload: medium (body=4096 B, headers=12)
+          HTTP wire: 4613 bytes
+          ZAP wire:  5076 bytes
+          ratio:     0.91x (-10.0% smaller)
+=== RUN   TestWireBytes/large
+    bench_test.go:362: 
+          workload: large (body=65536 B, headers=8)
+          HTTP wire: 65844 bytes
+          ZAP wire:  66196 bytes
+          ratio:     0.99x (-0.5% smaller)
+--- PASS: TestWireBytes (0.00s)
+    --- PASS: TestWireBytes/tiny (0.00s)
+    --- PASS: TestWireBytes/small (0.00s)
+    --- PASS: TestWireBytes/medium (0.00s)
+    --- PASS: TestWireBytes/large (0.00s)
+=== RUN   TestConcurrentThroughput
+=== RUN   TestConcurrentThroughput/small
+    bench_test.go:427: 
+          workload: small @ concurrency=32
+          HTTP: 32000 reqs in 930ms (34411 req/s)
+          ZAP:  32000 reqs in 1.037s (30868 req/s)
+          speedup: 0.90x
+=== RUN   TestConcurrentThroughput/medium
+    bench_test.go:427: 
+          workload: medium @ concurrency=32
+          HTTP: 32000 reqs in 2.064s (15503 req/s)
+          ZAP:  32000 reqs in 2.301s (13907 req/s)
+          speedup: 0.90x
+--- PASS: TestConcurrentThroughput (6.34s)
+    --- PASS: TestConcurrentThroughput/small (1.97s)
+    --- PASS: TestConcurrentThroughput/medium (4.37s)
+PASS
+ok  	github.com/zap-proto/bench	13.915s
