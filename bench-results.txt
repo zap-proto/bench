@@ -3,177 +3,217 @@ go version go1.26.5 darwin/arm64
 Darwin 25.6.0
 Apple M1 Max
 10
-19:53  up 7 days,  7:40, 1 user, load averages: 99.56 115.93 111.12
+20:21  up 7 days,  8:08, 1 user, load averages: 102.21 128.14 138.31
+quiet enough for rates: no (load 102.21, 10 cores, threshold 4.0)
 github.com/zap-proto/bench
 github.com/valyala/fasthttp v1.70.0
 github.com/zap-proto/go v1.8.3
 github.com/zap-proto/http v0.3.9
 
-=== allocation + throughput, 3 repetitions ===
+=== allocations, 3 repetitions ===
 === RUN   TestMemoryPressure
 === RUN   TestMemoryPressure/tiny
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: tiny (body=16 B, headers=4)
-          net/http      5000 reqs in   3.186s (   1569 req/s) |    10371.9 bytes/req |  115.4 allocs/req |   33 GCs | heap=3712 KiB
-          fasthttp      5000 reqs in    930ms (   5378 req/s) |        5.8 bytes/req |    0.0 allocs/req |    0 GCs | heap=2536 KiB
-          ZAP-HTTP      5000 reqs in    513ms (   9744 req/s) |        2.6 bytes/req |    0.0 allocs/req |    0 GCs | heap=2544 KiB
-          native ZAP    5000 reqs in    657ms (   7607 req/s) |      224.0 bytes/req |    6.0 allocs/req |    0 GCs | heap=3552 KiB
-          floor         5000 reqs in   1.011s (   4945 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2464 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:2.22x allocs:1.20x throughput:1.81x
-          ZAP-HTTP vs net/http              bytes:3972.07x allocs:8877.78x throughput:6.21x
-          native ZAP vs fasthttp            bytes:0.03x allocs:0.00x throughput:1.41x
-          native ZAP vs net/http            bytes:46.30x allocs:19.23x throughput:4.85x
+          net/http      5000 reqs in   4.922s (   1016 req/s) |    10409.7 bytes/req |  115.4 allocs/req |   33 GCs | heap=3928 KiB
+          fasthttp      5000 reqs in   1.008s (   4963 req/s) |        6.7 bytes/req |    0.0 allocs/req |    0 GCs | heap=2480 KiB
+          ZAP-HTTP      5000 reqs in     1.3s (   3845 req/s) |        2.6 bytes/req |    0.0 allocs/req |    0 GCs | heap=2520 KiB
+          native ZAP    5000 reqs in   1.131s (   4423 req/s) |      224.0 bytes/req |    6.0 allocs/req |    0 GCs | heap=3520 KiB
+          floor         5000 reqs in    752ms (   6648 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2440 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:2.57x allocs:1.31x throughput:0.77x
+          ZAP-HTTP vs net/http              bytes:3979.25x allocs:8613.34x throughput:3.79x
+          native ZAP vs fasthttp            bytes:0.03x allocs:0.00x throughput:0.89x
+          native ZAP vs net/http            bytes:46.47x allocs:19.23x throughput:4.35x
 === RUN   TestMemoryPressure/small
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: small (body=256 B, headers=8)
-          net/http      5000 reqs in   1.975s (   2532 req/s) |    10306.9 bytes/req |  122.4 allocs/req |   34 GCs | heap=3896 KiB
-          fasthttp      5000 reqs in   1.857s (   2693 req/s) |        7.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2600 KiB
-          ZAP-HTTP      5000 reqs in   1.263s (   3960 req/s) |        3.1 bytes/req |    0.0 allocs/req |    0 GCs | heap=2600 KiB
-          native ZAP    5000 reqs in    876ms (   5705 req/s) |      704.0 bytes/req |    6.0 allocs/req |    1 GCs | heap=4128 KiB
-          floor         5000 reqs in    221ms (  22650 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2504 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:2.24x allocs:1.18x throughput:1.47x
-          ZAP-HTTP vs net/http              bytes:3284.97x allocs:7197.93x throughput:1.56x
-          native ZAP vs fasthttp            bytes:0.01x allocs:0.00x throughput:2.12x
-          native ZAP vs net/http            bytes:14.64x allocs:20.39x throughput:2.25x
+          net/http      5000 reqs in   3.229s (   1548 req/s) |    10531.4 bytes/req |  122.4 allocs/req |   34 GCs | heap=4336 KiB
+          fasthttp      5000 reqs in   1.338s (   3737 req/s) |        5.3 bytes/req |    0.0 allocs/req |    0 GCs | heap=2568 KiB
+          ZAP-HTTP      5000 reqs in    2.13s (   2347 req/s) |        3.2 bytes/req |    0.0 allocs/req |    0 GCs | heap=2624 KiB
+          native ZAP    5000 reqs in   1.084s (   4612 req/s) |      704.0 bytes/req |    6.0 allocs/req |    1 GCs | heap=4120 KiB
+          floor         5000 reqs in    935ms (   5347 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2528 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:1.63x allocs:1.07x throughput:0.63x
+          ZAP-HTTP vs net/http              bytes:3260.09x allocs:7373.08x throughput:1.52x
+          native ZAP vs fasthttp            bytes:0.01x allocs:0.00x throughput:1.23x
+          native ZAP vs net/http            bytes:14.96x allocs:20.40x throughput:2.98x
+=== RUN   TestMemoryPressure/chat
+    bench_test.go:472: 
+          workload: chat (body=824 B, headers=12)
+          net/http      5000 reqs in   2.586s (   1933 req/s) |    14680.2 bytes/req |  151.5 allocs/req |   50 GCs | heap=3448 KiB
+          fasthttp      5000 reqs in    1.48s (   3379 req/s) |        7.5 bytes/req |    0.0 allocs/req |    0 GCs | heap=2696 KiB
+          ZAP-HTTP      5000 reqs in   1.271s (   3934 req/s) |        4.4 bytes/req |    0.0 allocs/req |    0 GCs | heap=2696 KiB
+          native ZAP    5000 reqs in   1.105s (   4526 req/s) |     1984.0 bytes/req |    6.0 allocs/req |    3 GCs | heap=4960 KiB
+          floor         5000 reqs in    258ms (  19343 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2576 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:1.72x allocs:1.06x throughput:1.16x
+          ZAP-HTTP vs net/http              bytes:3369.50x allocs:6588.45x throughput:2.04x
+          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:1.34x
+          native ZAP vs net/http            bytes:7.40x allocs:25.25x throughput:2.34x
 === RUN   TestMemoryPressure/medium
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: medium (body=4096 B, headers=12)
-          net/http      5000 reqs in   2.821s (   1773 req/s) |    24886.1 bytes/req |  159.0 allocs/req |   93 GCs | heap=3368 KiB
-          fasthttp      5000 reqs in   1.357s (   3685 req/s) |       10.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2584 KiB
-          ZAP-HTTP      5000 reqs in   1.041s (   4803 req/s) |        7.5 bytes/req |    0.0 allocs/req |    0 GCs | heap=2664 KiB
-          native ZAP    5000 reqs in   1.222s (   4091 req/s) |     8384.8 bytes/req |    6.0 allocs/req |   17 GCs | heap=3200 KiB
-          floor         5000 reqs in    415ms (  12055 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2504 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:1.33x allocs:1.09x throughput:1.30x
-          ZAP-HTTP vs net/http              bytes:3314.25x allocs:6795.44x throughput:2.71x
-          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:1.11x
-          native ZAP vs net/http            bytes:2.97x allocs:26.48x throughput:2.31x
+          net/http      5000 reqs in    4.38s (   1142 req/s) |    24747.7 bytes/req |  158.9 allocs/req |   91 GCs | heap=3184 KiB
+          fasthttp      5000 reqs in    2.32s (   2155 req/s) |       11.7 bytes/req |    0.0 allocs/req |    0 GCs | heap=2696 KiB
+          ZAP-HTTP      5000 reqs in   1.368s (   3654 req/s) |        6.9 bytes/req |    0.0 allocs/req |    0 GCs | heap=2744 KiB
+          native ZAP    5000 reqs in    888ms (   5628 req/s) |     8384.1 bytes/req |    6.0 allocs/req |   12 GCs | heap=16360 KiB
+          floor         5000 reqs in    243ms (  20590 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2632 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:1.69x allocs:1.21x throughput:1.70x
+          ZAP-HTTP vs net/http              bytes:3596.21x allocs:7095.76x throughput:3.20x
+          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:2.61x
+          native ZAP vs net/http            bytes:2.95x allocs:26.49x throughput:4.93x
 === RUN   TestMemoryPressure/large
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: large (body=65536 B, headers=8)
-          net/http      5000 reqs in   7.434s (    673 req/s) |   192695.1 bytes/req |  143.8 allocs/req |  598 GCs | heap=4032 KiB
-          fasthttp      5000 reqs in   2.009s (   2489 req/s) |       60.3 bytes/req |    0.0 allocs/req |    0 GCs | heap=2984 KiB
-          ZAP-HTTP      5000 reqs in   2.664s (   1877 req/s) |       55.2 bytes/req |    0.0 allocs/req |    0 GCs | heap=3424 KiB
-          native ZAP    5000 reqs in   3.168s (   1578 req/s) |   131266.4 bytes/req |    6.0 allocs/req |  151 GCs | heap=4056 KiB
-          floor         5000 reqs in   3.097s (   1614 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2840 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:1.09x allocs:1.32x throughput:0.75x
-          ZAP-HTTP vs net/http              bytes:3491.56x allocs:8461.16x throughput:2.79x
-          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:0.63x
-          native ZAP vs net/http            bytes:1.47x allocs:23.88x throughput:2.35x
---- PASS: TestMemoryPressure (40.50s)
-    --- PASS: TestMemoryPressure/tiny (6.92s)
-    --- PASS: TestMemoryPressure/small (6.95s)
-    --- PASS: TestMemoryPressure/medium (7.56s)
-    --- PASS: TestMemoryPressure/large (19.08s)
+          net/http      5000 reqs in   7.044s (    710 req/s) |   193830.8 bytes/req |  144.2 allocs/req |  669 GCs | heap=4568 KiB
+          fasthttp      5000 reqs in    1.45s (   3449 req/s) |       58.5 bytes/req |    0.0 allocs/req |    0 GCs | heap=3000 KiB
+          ZAP-HTTP      5000 reqs in   2.141s (   2335 req/s) |       68.5 bytes/req |    0.0 allocs/req |    0 GCs | heap=3528 KiB
+          native ZAP    5000 reqs in   2.693s (   1857 req/s) |   131268.9 bytes/req |    6.0 allocs/req |  254 GCs | heap=3640 KiB
+          floor         5000 reqs in   2.283s (   2190 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2864 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:0.85x allocs:1.16x throughput:0.68x
+          ZAP-HTTP vs net/http              bytes:2830.74x allocs:8383.02x throughput:3.29x
+          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:0.54x
+          native ZAP vs net/http            bytes:1.48x allocs:23.85x throughput:2.62x
+--- PASS: TestMemoryPressure (52.56s)
+    --- PASS: TestMemoryPressure/tiny (9.98s)
+    --- PASS: TestMemoryPressure/small (9.50s)
+    --- PASS: TestMemoryPressure/chat (7.32s)
+    --- PASS: TestMemoryPressure/medium (9.62s)
+    --- PASS: TestMemoryPressure/large (16.13s)
 === RUN   TestMemoryPressure
 === RUN   TestMemoryPressure/tiny
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: tiny (body=16 B, headers=4)
-          net/http      5000 reqs in   3.936s (   1270 req/s) |    10319.3 bytes/req |  115.4 allocs/req |   29 GCs | heap=4120 KiB
-          fasthttp      5000 reqs in   1.223s (   4087 req/s) |        6.7 bytes/req |    0.0 allocs/req |    0 GCs | heap=2736 KiB
-          ZAP-HTTP      5000 reqs in   3.161s (   1582 req/s) |        2.8 bytes/req |    0.0 allocs/req |    0 GCs | heap=2768 KiB
-          native ZAP    5000 reqs in   1.432s (   3492 req/s) |      224.0 bytes/req |    6.0 allocs/req |    0 GCs | heap=3744 KiB
-          floor         5000 reqs in    581ms (   8606 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2704 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:2.38x allocs:1.13x throughput:0.39x
-          ZAP-HTTP vs net/http              bytes:3654.16x allocs:7492.45x throughput:1.25x
-          native ZAP vs fasthttp            bytes:0.03x allocs:0.00x throughput:0.85x
-          native ZAP vs net/http            bytes:46.06x allocs:19.23x throughput:2.75x
+          net/http      5000 reqs in   2.887s (   1732 req/s) |    10399.1 bytes/req |  115.4 allocs/req |   36 GCs | heap=3624 KiB
+          fasthttp      5000 reqs in   1.316s (   3801 req/s) |        6.7 bytes/req |    0.0 allocs/req |    0 GCs | heap=2544 KiB
+          ZAP-HTTP      5000 reqs in   1.493s (   3348 req/s) |        2.8 bytes/req |    0.0 allocs/req |    0 GCs | heap=2576 KiB
+          native ZAP    5000 reqs in   1.116s (   4480 req/s) |      224.0 bytes/req |    6.0 allocs/req |    0 GCs | heap=3576 KiB
+          floor         5000 reqs in    798ms (   6262 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2504 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:2.39x allocs:1.18x throughput:0.88x
+          ZAP-HTTP vs net/http              bytes:3705.48x allocs:7904.74x throughput:1.93x
+          native ZAP vs fasthttp            bytes:0.03x allocs:0.00x throughput:1.18x
+          native ZAP vs net/http            bytes:46.42x allocs:19.23x throughput:2.59x
 === RUN   TestMemoryPressure/small
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: small (body=256 B, headers=8)
-          net/http      5000 reqs in   2.584s (   1935 req/s) |    10794.0 bytes/req |  122.5 allocs/req |   37 GCs | heap=3512 KiB
-          fasthttp      5000 reqs in   1.979s (   2526 req/s) |        6.4 bytes/req |    0.0 allocs/req |    0 GCs | heap=2744 KiB
-          ZAP-HTTP      5000 reqs in   1.822s (   2744 req/s) |        3.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2768 KiB
-          native ZAP    5000 reqs in   1.294s (   3864 req/s) |      704.1 bytes/req |    6.0 allocs/req |    1 GCs | heap=3968 KiB
-          floor         5000 reqs in    857ms (   5837 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2680 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:2.18x allocs:1.18x throughput:1.09x
-          ZAP-HTTP vs net/http              bytes:3658.49x allocs:7378.13x throughput:1.42x
-          native ZAP vs fasthttp            bytes:0.01x allocs:0.00x throughput:1.53x
-          native ZAP vs net/http            bytes:15.33x allocs:20.41x throughput:2.00x
+          net/http      5000 reqs in   2.814s (   1777 req/s) |    10448.9 bytes/req |  122.4 allocs/req |   33 GCs | heap=3776 KiB
+          fasthttp      5000 reqs in   1.119s (   4469 req/s) |        6.1 bytes/req |    0.0 allocs/req |    0 GCs | heap=2616 KiB
+          ZAP-HTTP      5000 reqs in   1.393s (   3589 req/s) |        3.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2672 KiB
+          native ZAP    5000 reqs in    874ms (   5723 req/s) |      704.3 bytes/req |    6.0 allocs/req |    1 GCs | heap=3848 KiB
+          floor         5000 reqs in    428ms (  11670 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2568 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:2.08x allocs:1.12x throughput:0.80x
+          ZAP-HTTP vs net/http              bytes:3541.53x allocs:7461.32x throughput:2.02x
+          native ZAP vs fasthttp            bytes:0.01x allocs:0.00x throughput:1.28x
+          native ZAP vs net/http            bytes:14.84x allocs:20.39x throughput:3.22x
+=== RUN   TestMemoryPressure/chat
+    bench_test.go:472: 
+          workload: chat (body=824 B, headers=12)
+          net/http      5000 reqs in   2.136s (   2341 req/s) |    14752.3 bytes/req |  151.6 allocs/req |   55 GCs | heap=4056 KiB
+          fasthttp      5000 reqs in   2.363s (   2116 req/s) |        8.5 bytes/req |    0.0 allocs/req |    0 GCs | heap=2776 KiB
+          ZAP-HTTP      5000 reqs in   2.373s (   2107 req/s) |        4.7 bytes/req |    0.0 allocs/req |    0 GCs | heap=2856 KiB
+          native ZAP    5000 reqs in   2.297s (   2177 req/s) |     1984.1 bytes/req |    6.0 allocs/req |    4 GCs | heap=4120 KiB
+          floor         5000 reqs in    616ms (   8119 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2664 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:1.81x allocs:1.15x throughput:1.00x
+          ZAP-HTTP vs net/http              bytes:3132.91x allocs:6532.55x throughput:0.90x
+          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:1.03x
+          native ZAP vs net/http            bytes:7.44x allocs:25.25x throughput:0.93x
 === RUN   TestMemoryPressure/medium
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: medium (body=4096 B, headers=12)
-          net/http      5000 reqs in   7.436s (    672 req/s) |    24309.9 bytes/req |  158.8 allocs/req |   73 GCs | heap=6192 KiB
-          fasthttp      5000 reqs in   2.756s (   1814 req/s) |       11.8 bytes/req |    0.0 allocs/req |    0 GCs | heap=2792 KiB
-          ZAP-HTTP      5000 reqs in    2.03s (   2463 req/s) |        6.6 bytes/req |    0.0 allocs/req |    0 GCs | heap=2848 KiB
-          native ZAP    5000 reqs in   1.478s (   3384 req/s) |     8384.1 bytes/req |    6.0 allocs/req |   13 GCs | heap=14816 KiB
-          floor         5000 reqs in   1.276s (   3918 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2712 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:1.78x allocs:1.26x throughput:1.36x
-          ZAP-HTTP vs net/http              bytes:3671.75x allocs:7088.24x throughput:3.66x
-          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:1.87x
-          native ZAP vs net/http            bytes:2.90x allocs:26.45x throughput:5.03x
+          net/http      5000 reqs in     3.9s (   1282 req/s) |    24746.8 bytes/req |  158.9 allocs/req |   88 GCs | heap=4736 KiB
+          fasthttp      5000 reqs in   1.268s (   3943 req/s) |       10.8 bytes/req |    0.0 allocs/req |    0 GCs | heap=2784 KiB
+          ZAP-HTTP      5000 reqs in   1.567s (   3190 req/s) |        6.6 bytes/req |    0.0 allocs/req |    0 GCs | heap=2824 KiB
+          native ZAP    5000 reqs in   1.743s (   2869 req/s) |     8384.0 bytes/req |    6.0 allocs/req |   17 GCs | heap=3448 KiB
+          floor         5000 reqs in   1.345s (   3717 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2712 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:1.63x allocs:1.11x throughput:0.81x
+          ZAP-HTTP vs net/http              bytes:3723.34x allocs:6969.84x throughput:2.49x
+          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:0.73x
+          native ZAP vs net/http            bytes:2.95x allocs:26.48x throughput:2.24x
 === RUN   TestMemoryPressure/large
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: large (body=65536 B, headers=8)
-          net/http      5000 reqs in   8.079s (    619 req/s) |   188861.2 bytes/req |  142.4 allocs/req |  408 GCs | heap=4584 KiB
-          fasthttp      5000 reqs in   2.871s (   1741 req/s) |       73.4 bytes/req |    0.0 allocs/req |    0 GCs | heap=3304 KiB
-          ZAP-HTTP      5000 reqs in   3.011s (   1660 req/s) |       55.2 bytes/req |    0.0 allocs/req |    0 GCs | heap=3680 KiB
-          native ZAP    5000 reqs in   4.701s (   1064 req/s) |   131268.6 bytes/req |    6.0 allocs/req |  175 GCs | heap=13536 KiB
-          floor         5000 reqs in    3.81s (   1312 req/s) |        1.5 bytes/req |    0.0 allocs/req |    0 GCs | heap=3096 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:1.33x allocs:1.36x throughput:0.95x
-          ZAP-HTTP vs net/http              bytes:3422.29x allocs:8374.64x throughput:2.68x
-          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:0.61x
-          native ZAP vs net/http            bytes:1.44x allocs:23.56x throughput:1.72x
---- PASS: TestMemoryPressure (61.08s)
-    --- PASS: TestMemoryPressure/tiny (11.43s)
-    --- PASS: TestMemoryPressure/small (9.89s)
-    --- PASS: TestMemoryPressure/medium (15.97s)
-    --- PASS: TestMemoryPressure/large (23.78s)
+          net/http      5000 reqs in   12.36s (    405 req/s) |   191015.1 bytes/req |  143.1 allocs/req |  513 GCs | heap=4352 KiB
+          fasthttp      5000 reqs in   3.486s (   1434 req/s) |       73.4 bytes/req |    0.0 allocs/req |    0 GCs | heap=3160 KiB
+          ZAP-HTTP      5000 reqs in   3.573s (   1399 req/s) |       68.5 bytes/req |    0.0 allocs/req |    0 GCs | heap=3584 KiB
+          native ZAP    5000 reqs in   9.106s (    549 req/s) |   131267.7 bytes/req |    6.0 allocs/req |  112 GCs | heap=4664 KiB
+          floor         5000 reqs in   7.372s (    678 req/s) |        0.1 bytes/req |    0.0 allocs/req |    0 GCs | heap=2736 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:1.07x allocs:1.27x throughput:0.98x
+          ZAP-HTTP vs net/http              bytes:2788.44x allocs:7693.23x throughput:3.46x
+          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:0.38x
+          native ZAP vs net/http            bytes:1.46x allocs:23.74x throughput:1.36x
+--- PASS: TestMemoryPressure (74.10s)
+    --- PASS: TestMemoryPressure/tiny (8.27s)
+    --- PASS: TestMemoryPressure/small (7.33s)
+    --- PASS: TestMemoryPressure/chat (10.64s)
+    --- PASS: TestMemoryPressure/medium (10.43s)
+    --- PASS: TestMemoryPressure/large (37.40s)
 === RUN   TestMemoryPressure
 === RUN   TestMemoryPressure/tiny
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: tiny (body=16 B, headers=4)
-          net/http      5000 reqs in   3.708s (   1348 req/s) |    10160.3 bytes/req |  115.3 allocs/req |   30 GCs | heap=4640 KiB
-          fasthttp      5000 reqs in   1.685s (   2967 req/s) |        6.7 bytes/req |    0.0 allocs/req |    0 GCs | heap=2744 KiB
-          ZAP-HTTP      5000 reqs in    985ms (   5079 req/s) |        2.6 bytes/req |    0.0 allocs/req |    0 GCs | heap=2776 KiB
-          native ZAP    5000 reqs in    905ms (   5525 req/s) |      224.0 bytes/req |    6.0 allocs/req |    0 GCs | heap=3720 KiB
-          floor         5000 reqs in   1.313s (   3808 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2680 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:2.57x allocs:1.38x throughput:1.71x
-          ZAP-HTTP vs net/http              bytes:3912.63x allocs:9009.00x throughput:3.77x
-          native ZAP vs fasthttp            bytes:0.03x allocs:0.00x throughput:1.86x
-          native ZAP vs net/http            bytes:45.36x allocs:19.22x throughput:4.10x
+          net/http      5000 reqs in   9.109s (    549 req/s) |    10253.3 bytes/req |  115.3 allocs/req |   29 GCs | heap=4848 KiB
+          fasthttp      5000 reqs in   3.924s (   1274 req/s) |        6.7 bytes/req |    0.0 allocs/req |    0 GCs | heap=2672 KiB
+          ZAP-HTTP      5000 reqs in   2.382s (   2099 req/s) |        2.8 bytes/req |    0.0 allocs/req |    0 GCs | heap=2720 KiB
+          native ZAP    5000 reqs in   2.157s (   2318 req/s) |      224.0 bytes/req |    6.0 allocs/req |    0 GCs | heap=3648 KiB
+          floor         5000 reqs in   2.524s (   1981 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2608 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:2.38x allocs:1.28x throughput:1.65x
+          ZAP-HTTP vs net/http              bytes:3641.10x allocs:7689.11x throughput:3.82x
+          native ZAP vs fasthttp            bytes:0.03x allocs:0.00x throughput:1.82x
+          native ZAP vs net/http            bytes:45.77x allocs:19.22x throughput:4.22x
 === RUN   TestMemoryPressure/small
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: small (body=256 B, headers=8)
-          net/http      5000 reqs in   3.015s (   1658 req/s) |    10586.0 bytes/req |  122.4 allocs/req |   36 GCs | heap=3848 KiB
-          fasthttp      5000 reqs in   1.753s (   2853 req/s) |        6.1 bytes/req |    0.0 allocs/req |    0 GCs | heap=2840 KiB
-          ZAP-HTTP      5000 reqs in   1.261s (   3964 req/s) |        3.2 bytes/req |    0.0 allocs/req |    0 GCs | heap=2856 KiB
-          native ZAP    5000 reqs in    511ms (   9784 req/s) |      704.0 bytes/req |    6.0 allocs/req |    1 GCs | heap=4408 KiB
-          floor         5000 reqs in    891ms (   5612 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2736 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:1.91x allocs:1.15x throughput:1.39x
-          ZAP-HTTP vs net/http              bytes:3288.41x allocs:7651.51x throughput:2.39x
-          native ZAP vs fasthttp            bytes:0.01x allocs:0.00x throughput:3.43x
-          native ZAP vs net/http            bytes:15.04x allocs:20.40x throughput:5.90x
+          net/http      5000 reqs in    6.77s (    739 req/s) |    10446.0 bytes/req |  122.4 allocs/req |   34 GCs | heap=4000 KiB
+          fasthttp      5000 reqs in   3.309s (   1511 req/s) |        7.1 bytes/req |    0.0 allocs/req |    0 GCs | heap=2840 KiB
+          ZAP-HTTP      5000 reqs in   2.373s (   2107 req/s) |        3.2 bytes/req |    0.0 allocs/req |    0 GCs | heap=2864 KiB
+          native ZAP    5000 reqs in   2.204s (   2269 req/s) |      704.1 bytes/req |    6.0 allocs/req |    1 GCs | heap=4072 KiB
+          floor         5000 reqs in   1.841s (   2715 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2776 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:2.22x allocs:1.27x throughput:1.39x
+          ZAP-HTTP vs net/http              bytes:3274.19x allocs:7116.20x throughput:2.85x
+          native ZAP vs fasthttp            bytes:0.01x allocs:0.00x throughput:1.50x
+          native ZAP vs net/http            bytes:14.84x allocs:20.39x throughput:3.07x
+=== RUN   TestMemoryPressure/chat
+    bench_test.go:472: 
+          workload: chat (body=824 B, headers=12)
+          net/http      5000 reqs in  11.094s (    451 req/s) |    14681.3 bytes/req |  151.5 allocs/req |   46 GCs | heap=3920 KiB
+          fasthttp      5000 reqs in   3.378s (   1480 req/s) |        9.2 bytes/req |    0.0 allocs/req |    0 GCs | heap=2800 KiB
+          ZAP-HTTP      5000 reqs in   2.489s (   2009 req/s) |        4.1 bytes/req |    0.0 allocs/req |    0 GCs | heap=2824 KiB
+          native ZAP    5000 reqs in   2.685s (   1862 req/s) |     1984.1 bytes/req |    6.0 allocs/req |    4 GCs | heap=4504 KiB
+          floor         5000 reqs in   1.306s (   3830 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2672 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:2.25x allocs:1.21x throughput:1.36x
+          ZAP-HTTP vs net/http              bytes:3598.35x allocs:6704.65x throughput:4.46x
+          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:1.26x
+          native ZAP vs net/http            bytes:7.40x allocs:25.24x throughput:4.13x
 === RUN   TestMemoryPressure/medium
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: medium (body=4096 B, headers=12)
-          net/http      5000 reqs in   2.188s (   2285 req/s) |    24611.8 bytes/req |  158.9 allocs/req |   94 GCs | heap=3824 KiB
-          fasthttp      5000 reqs in   1.437s (   3480 req/s) |        9.9 bytes/req |    0.0 allocs/req |    0 GCs | heap=2776 KiB
-          ZAP-HTTP      5000 reqs in   1.989s (   2514 req/s) |        6.7 bytes/req |    0.0 allocs/req |    0 GCs | heap=2904 KiB
-          native ZAP    5000 reqs in    891ms (   5610 req/s) |     8384.3 bytes/req |    6.0 allocs/req |   18 GCs | heap=3120 KiB
-          floor         5000 reqs in    875ms (   5717 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2728 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:1.49x allocs:1.05x throughput:0.72x
-          ZAP-HTTP vs net/http              bytes:3692.36x allocs:6849.18x throughput:1.10x
-          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:1.61x
-          native ZAP vs net/http            bytes:2.94x allocs:26.48x throughput:2.45x
+          net/http      5000 reqs in   6.602s (    757 req/s) |    24985.4 bytes/req |  159.0 allocs/req |   91 GCs | heap=4072 KiB
+          fasthttp      5000 reqs in   1.311s (   3814 req/s) |       11.6 bytes/req |    0.0 allocs/req |    0 GCs | heap=2792 KiB
+          ZAP-HTTP      5000 reqs in   2.429s (   2059 req/s) |        7.6 bytes/req |    0.0 allocs/req |    0 GCs | heap=2856 KiB
+          native ZAP    5000 reqs in   2.315s (   2160 req/s) |     8384.2 bytes/req |    6.0 allocs/req |   12 GCs | heap=4512 KiB
+          floor         5000 reqs in    964ms (   5187 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2744 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:1.52x allocs:1.12x throughput:0.54x
+          ZAP-HTTP vs net/http              bytes:3270.35x allocs:6854.51x throughput:2.72x
+          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:0.57x
+          native ZAP vs net/http            bytes:2.98x allocs:26.49x throughput:2.85x
 === RUN   TestMemoryPressure/large
-    bench_test.go:458: 
+    bench_test.go:472: 
           workload: large (body=65536 B, headers=8)
-          net/http      5000 reqs in   6.376s (    784 req/s) |   193090.8 bytes/req |  143.9 allocs/req |  600 GCs | heap=4176 KiB
-          fasthttp      5000 reqs in   4.879s (   1025 req/s) |       73.5 bytes/req |    0.0 allocs/req |    0 GCs | heap=3312 KiB
-          ZAP-HTTP      5000 reqs in   5.131s (    974 req/s) |       68.5 bytes/req |    0.0 allocs/req |    0 GCs | heap=3728 KiB
-          native ZAP    5000 reqs in   4.376s (   1143 req/s) |   131266.3 bytes/req |    6.0 allocs/req |  102 GCs | heap=10432 KiB
-          floor         5000 reqs in    2.47s (   2024 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=3064 KiB
-          ZAP-HTTP vs fasthttp (wire only)  bytes:1.07x allocs:1.33x throughput:0.95x
-          ZAP-HTTP vs net/http              bytes:2818.02x allocs:7417.77x throughput:1.24x
-          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:1.11x
-          native ZAP vs net/http            bytes:1.47x allocs:23.89x throughput:1.46x
---- PASS: TestMemoryPressure (50.15s)
-    --- PASS: TestMemoryPressure/tiny (9.54s)
-    --- PASS: TestMemoryPressure/small (8.14s)
-    --- PASS: TestMemoryPressure/medium (7.96s)
-    --- PASS: TestMemoryPressure/large (24.52s)
+          net/http      5000 reqs in  13.029s (    384 req/s) |   188602.8 bytes/req |  142.3 allocs/req |  396 GCs | heap=4512 KiB
+          fasthttp      5000 reqs in   3.627s (   1379 req/s) |       72.5 bytes/req |    0.0 allocs/req |    0 GCs | heap=3272 KiB
+          ZAP-HTTP      5000 reqs in   4.099s (   1220 req/s) |       55.2 bytes/req |    0.0 allocs/req |    0 GCs | heap=3648 KiB
+          native ZAP    5000 reqs in   5.853s (    854 req/s) |   131268.3 bytes/req |    6.0 allocs/req |  150 GCs | heap=5944 KiB
+          floor         5000 reqs in   2.279s (   2194 req/s) |        0.0 bytes/req |    0.0 allocs/req |    0 GCs | heap=2864 KiB
+          ZAP-HTTP vs fasthttp (wire only)  bytes:1.31x allocs:1.29x throughput:0.88x
+          ZAP-HTTP vs net/http              bytes:3416.52x allocs:7992.57x throughput:3.18x
+          native ZAP vs fasthttp            bytes:0.00x allocs:0.00x throughput:0.62x
+          native ZAP vs net/http            bytes:1.44x allocs:23.59x throughput:2.23x
+--- PASS: TestMemoryPressure (107.80s)
+    --- PASS: TestMemoryPressure/tiny (22.72s)
+    --- PASS: TestMemoryPressure/small (18.11s)
+    --- PASS: TestMemoryPressure/chat (22.54s)
+    --- PASS: TestMemoryPressure/medium (14.75s)
+    --- PASS: TestMemoryPressure/large (29.69s)
 PASS
-ok  	github.com/zap-proto/bench	152.034s
+ok  	github.com/zap-proto/bench	234.984s
 
 === wire bytes ===
 === RUN   TestWireBytes
@@ -214,160 +254,18 @@ ok  	github.com/zap-proto/bench	152.034s
     --- PASS: TestWireBytes/medium (0.00s)
     --- PASS: TestWireBytes/large (0.00s)
 PASS
-ok  	github.com/zap-proto/bench	0.417s
+ok  	github.com/zap-proto/bench	0.383s
 
-=== concurrent throughput, 3 repetitions ===
-=== RUN   TestConcurrentThroughput
-=== RUN   TestConcurrentThroughput/small
-    bench_test.go:625: 
-          workload: small @ 32 workers
-          net/http      32000 reqs in   7.971s (   4015 req/s)
-          fasthttp      32000 reqs in   1.253s (  25539 req/s)
-          ZAP-HTTP      32000 reqs in   1.007s (  31764 req/s)
-          native ZAP    32000 reqs in    911ms (  35139 req/s)
-          ZAP-HTTP vs fasthttp: 1.24x   ZAP-HTTP vs net/http: 7.91x
-          native ZAP vs fasthttp: 1.38x   native ZAP vs net/http: 8.75x
-=== RUN   TestConcurrentThroughput/medium
-    bench_test.go:625: 
-          workload: medium @ 32 workers
-          net/http      32000 reqs in   10.15s (   3153 req/s)
-          fasthttp      32000 reqs in    2.86s (  11189 req/s)
-          ZAP-HTTP      32000 reqs in   1.526s (  20965 req/s)
-          native ZAP    32000 reqs in   1.885s (  16978 req/s)
-          ZAP-HTTP vs fasthttp: 1.87x   ZAP-HTTP vs net/http: 6.65x
-          native ZAP vs fasthttp: 1.52x   native ZAP vs net/http: 5.38x
---- PASS: TestConcurrentThroughput (27.78s)
-    --- PASS: TestConcurrentThroughput/small (11.25s)
-    --- PASS: TestConcurrentThroughput/medium (16.52s)
-=== RUN   TestConcurrentThroughput
-=== RUN   TestConcurrentThroughput/small
-    bench_test.go:625: 
-          workload: small @ 32 workers
-          net/http      32000 reqs in   6.431s (   4976 req/s)
-          fasthttp      32000 reqs in   1.201s (  26640 req/s)
-          ZAP-HTTP      32000 reqs in   1.007s (  31784 req/s)
-          native ZAP    32000 reqs in    1.36s (  23523 req/s)
-          ZAP-HTTP vs fasthttp: 1.19x   ZAP-HTTP vs net/http: 6.39x
-          native ZAP vs fasthttp: 0.88x   native ZAP vs net/http: 4.73x
-=== RUN   TestConcurrentThroughput/medium
-    bench_test.go:625: 
-          workload: medium @ 32 workers
-          net/http      32000 reqs in   9.338s (   3427 req/s)
-          fasthttp      32000 reqs in    1.63s (  19626 req/s)
-          ZAP-HTTP      32000 reqs in   1.627s (  19674 req/s)
-          native ZAP    32000 reqs in   2.635s (  12143 req/s)
-          ZAP-HTTP vs fasthttp: 1.00x   ZAP-HTTP vs net/http: 5.74x
-          native ZAP vs fasthttp: 0.62x   native ZAP vs net/http: 3.54x
---- PASS: TestConcurrentThroughput (25.87s)
-    --- PASS: TestConcurrentThroughput/small (10.10s)
-    --- PASS: TestConcurrentThroughput/medium (15.71s)
-=== RUN   TestConcurrentThroughput
-=== RUN   TestConcurrentThroughput/small
-    bench_test.go:625: 
-          workload: small @ 32 workers
-          net/http      32000 reqs in  11.365s (   2816 req/s)
-          fasthttp      32000 reqs in    2.23s (  14350 req/s)
-          ZAP-HTTP      32000 reqs in   1.657s (  19317 req/s)
-          native ZAP    32000 reqs in   2.232s (  14340 req/s)
-          ZAP-HTTP vs fasthttp: 1.35x   ZAP-HTTP vs net/http: 6.86x
-          native ZAP vs fasthttp: 1.00x   native ZAP vs net/http: 5.09x
-=== RUN   TestConcurrentThroughput/medium
-    bench_test.go:625: 
-          workload: medium @ 32 workers
-          net/http      32000 reqs in  12.679s (   2524 req/s)
-          fasthttp      32000 reqs in   1.607s (  19912 req/s)
-          ZAP-HTTP      32000 reqs in    1.61s (  19875 req/s)
-          native ZAP    32000 reqs in   3.061s (  10453 req/s)
-          ZAP-HTTP vs fasthttp: 1.00x   ZAP-HTTP vs net/http: 7.87x
-          native ZAP vs fasthttp: 0.52x   native ZAP vs net/http: 4.14x
---- PASS: TestConcurrentThroughput (36.74s)
-    --- PASS: TestConcurrentThroughput/small (17.66s)
-    --- PASS: TestConcurrentThroughput/medium (19.06s)
-PASS
-ok  	github.com/zap-proto/bench	90.796s
+=== concurrent throughput: NOT MEASURED ===
+Load average was 102.21 on 10 cores when this run started. A rate
+taken there is scheduler contention, not transport cost. Re-run on a
+quiet machine to fill this section in.
 
-=== per-op benchmarks ===
-goos: darwin
-goarch: arm64
-pkg: github.com/zap-proto/bench
-cpu: Apple M1 Max
-BenchmarkStd/tiny-10  	    2000	    461069 ns/op	   0.07 MB/s	   10082 B/op	     115 allocs/op
-BenchmarkStd/tiny-10  	    2000	    592788 ns/op	   0.05 MB/s	   10207 B/op	     115 allocs/op
-BenchmarkStd/tiny-10  	    2000	    514095 ns/op	   0.06 MB/s	   10271 B/op	     115 allocs/op
-BenchmarkStd/small-10 	    2000	    614219 ns/op	   0.83 MB/s	   10247 B/op	     122 allocs/op
-BenchmarkStd/small-10 	    2000	    538229 ns/op	   0.95 MB/s	   10623 B/op	     122 allocs/op
-BenchmarkStd/small-10 	    2000	    885916 ns/op	   0.58 MB/s	   10261 B/op	     122 allocs/op
-BenchmarkStd/chat-10  	    2000	    759978 ns/op	   2.17 MB/s	   14136 B/op	     151 allocs/op
-BenchmarkStd/chat-10  	    2000	   1130171 ns/op	   1.46 MB/s	   14402 B/op	     151 allocs/op
-BenchmarkStd/chat-10  	    2000	   1535006 ns/op	   1.07 MB/s	   14472 B/op	     151 allocs/op
-BenchmarkStd/medium-10         	    2000	   1317390 ns/op	   6.22 MB/s	   23915 B/op	     158 allocs/op
-BenchmarkStd/medium-10         	    2000	   1551105 ns/op	   5.28 MB/s	   23955 B/op	     158 allocs/op
-BenchmarkStd/medium-10         	    2000	   1624531 ns/op	   5.04 MB/s	   24332 B/op	     158 allocs/op
-BenchmarkStd/large-10          	    2000	   1843138 ns/op	  71.11 MB/s	  187690 B/op	     141 allocs/op
-BenchmarkStd/large-10          	    2000	   1557539 ns/op	  84.15 MB/s	  184548 B/op	     140 allocs/op
-BenchmarkStd/large-10          	    2000	   1146112 ns/op	 114.36 MB/s	  186396 B/op	     141 allocs/op
-BenchmarkFast/tiny-10          	    2000	    327244 ns/op	   0.10 MB/s	      27 B/op	       0 allocs/op
-BenchmarkFast/tiny-10          	    2000	    356957 ns/op	   0.09 MB/s	      27 B/op	       0 allocs/op
-BenchmarkFast/tiny-10          	    2000	    355112 ns/op	   0.09 MB/s	      29 B/op	       0 allocs/op
-BenchmarkFast/small-10         	    2000	    667009 ns/op	   0.77 MB/s	      28 B/op	       0 allocs/op
-BenchmarkFast/small-10         	    2000	   2878877 ns/op	   0.18 MB/s	      37 B/op	       0 allocs/op
-BenchmarkFast/small-10         	    2000	    960408 ns/op	   0.53 MB/s	      28 B/op	       0 allocs/op
-BenchmarkFast/chat-10          	    2000	   1204116 ns/op	   1.37 MB/s	      32 B/op	       0 allocs/op
-BenchmarkFast/chat-10          	    2000	    870061 ns/op	   1.89 MB/s	      33 B/op	       0 allocs/op
-BenchmarkFast/chat-10          	    2000	    194144 ns/op	   8.49 MB/s	      30 B/op	       0 allocs/op
-BenchmarkFast/medium-10        	    2000	    809548 ns/op	  10.12 MB/s	      43 B/op	       0 allocs/op
-BenchmarkFast/medium-10        	    2000	    458768 ns/op	  17.86 MB/s	      39 B/op	       0 allocs/op
-BenchmarkFast/medium-10        	    2000	    607059 ns/op	  13.49 MB/s	      44 B/op	       0 allocs/op
-BenchmarkFast/large-10         	    2000	    999504 ns/op	 131.14 MB/s	     191 B/op	       0 allocs/op
-BenchmarkFast/large-10         	    2000	    623859 ns/op	 210.10 MB/s	     191 B/op	       0 allocs/op
-BenchmarkFast/large-10         	    2000	    363808 ns/op	 360.28 MB/s	     226 B/op	       0 allocs/op
-BenchmarkZAP/tiny-10           	    2000	    390134 ns/op	   0.08 MB/s	      26 B/op	       0 allocs/op
-BenchmarkZAP/tiny-10           	    2000	    310733 ns/op	   0.10 MB/s	      25 B/op	       0 allocs/op
-BenchmarkZAP/tiny-10           	    2000	    403757 ns/op	   0.08 MB/s	      26 B/op	       0 allocs/op
-BenchmarkZAP/small-10          	    2000	    344655 ns/op	   1.49 MB/s	      28 B/op	       0 allocs/op
-BenchmarkZAP/small-10          	    2000	    391498 ns/op	   1.31 MB/s	      30 B/op	       0 allocs/op
-BenchmarkZAP/small-10          	    2000	    308134 ns/op	   1.66 MB/s	      28 B/op	       0 allocs/op
-BenchmarkZAP/chat-10           	    2000	    458478 ns/op	   3.59 MB/s	      37 B/op	       0 allocs/op
-BenchmarkZAP/chat-10           	    2000	    410532 ns/op	   4.01 MB/s	      36 B/op	       0 allocs/op
-BenchmarkZAP/chat-10           	    2000	    426192 ns/op	   3.87 MB/s	      32 B/op	       0 allocs/op
-BenchmarkZAP/medium-10         	    2000	    455230 ns/op	  18.00 MB/s	      47 B/op	       0 allocs/op
-BenchmarkZAP/medium-10         	    2000	    343597 ns/op	  23.84 MB/s	      53 B/op	       0 allocs/op
-BenchmarkZAP/medium-10         	    2000	    336342 ns/op	  24.36 MB/s	      49 B/op	       0 allocs/op
-BenchmarkZAP/large-10          	    2000	    495287 ns/op	 264.64 MB/s	     337 B/op	       0 allocs/op
-BenchmarkZAP/large-10          	    2000	    678123 ns/op	 193.29 MB/s	     370 B/op	       0 allocs/op
-BenchmarkZAP/large-10          	    2000	   1334357 ns/op	  98.23 MB/s	     404 B/op	       0 allocs/op
-BenchmarkNative/tiny-10        	    2000	    286202 ns/op	   0.11 MB/s	     355 B/op	       6 allocs/op
-BenchmarkNative/tiny-10        	    2000	    205211 ns/op	   0.16 MB/s	     224 B/op	       6 allocs/op
-BenchmarkNative/tiny-10        	    2000	    232105 ns/op	   0.14 MB/s	     355 B/op	       6 allocs/op
-BenchmarkNative/small-10       	    2000	    234316 ns/op	   2.19 MB/s	     835 B/op	       6 allocs/op
-BenchmarkNative/small-10       	    2000	    114496 ns/op	   4.47 MB/s	     802 B/op	       6 allocs/op
-BenchmarkNative/small-10       	    2000	    454685 ns/op	   1.13 MB/s	     704 B/op	       6 allocs/op
-BenchmarkNative/chat-10        	    2000	    553178 ns/op	   2.98 MB/s	    1984 B/op	       6 allocs/op
-BenchmarkNative/chat-10        	    2000	    486355 ns/op	   3.39 MB/s	    2115 B/op	       6 allocs/op
-BenchmarkNative/chat-10        	    2000	     86793 ns/op	  18.99 MB/s	    2115 B/op	       6 allocs/op
-BenchmarkNative/medium-10      	    2000	    318982 ns/op	  25.68 MB/s	    8384 B/op	       6 allocs/op
-BenchmarkNative/medium-10      	    2000	    412815 ns/op	  19.84 MB/s	    8515 B/op	       6 allocs/op
-BenchmarkNative/medium-10      	    2000	    768306 ns/op	  10.66 MB/s	    8515 B/op	       6 allocs/op
-BenchmarkNative/large-10       	    2000	   1737094 ns/op	  75.45 MB/s	  131475 B/op	       6 allocs/op
-BenchmarkNative/large-10       	    2000	   1456306 ns/op	  90.00 MB/s	  131475 B/op	       6 allocs/op
-BenchmarkNative/large-10       	    2000	    847500 ns/op	 154.66 MB/s	  131474 B/op	       6 allocs/op
-BenchmarkFloor/tiny-10         	    2000	    248010 ns/op	   0.13 MB/s	      98 B/op	       0 allocs/op
-BenchmarkFloor/tiny-10         	    2000	    505870 ns/op	   0.06 MB/s	      98 B/op	       0 allocs/op
-BenchmarkFloor/tiny-10         	    2000	    388137 ns/op	   0.08 MB/s	      98 B/op	       0 allocs/op
-BenchmarkFloor/small-10        	    2000	    536226 ns/op	   0.95 MB/s	      98 B/op	       0 allocs/op
-BenchmarkFloor/small-10        	    2000	    423654 ns/op	   1.21 MB/s	       0 B/op	       0 allocs/op
-BenchmarkFloor/small-10        	    2000	    256057 ns/op	   2.00 MB/s	      98 B/op	       0 allocs/op
-BenchmarkFloor/chat-10         	    2000	    493571 ns/op	   3.34 MB/s	      98 B/op	       0 allocs/op
-BenchmarkFloor/chat-10         	    2000	    567407 ns/op	   2.90 MB/s	       0 B/op	       0 allocs/op
-BenchmarkFloor/chat-10         	    2000	    346185 ns/op	   4.76 MB/s	      98 B/op	       0 allocs/op
-BenchmarkFloor/medium-10       	    2000	    364623 ns/op	  22.47 MB/s	       0 B/op	       0 allocs/op
-BenchmarkFloor/medium-10       	    2000	    458168 ns/op	  17.88 MB/s	      98 B/op	       0 allocs/op
-BenchmarkFloor/medium-10       	    2000	    291209 ns/op	  28.13 MB/s	       0 B/op	       0 allocs/op
-BenchmarkFloor/large-10        	    2000	    555682 ns/op	 235.88 MB/s	      98 B/op	       0 allocs/op
-BenchmarkFloor/large-10        	    2000	    902536 ns/op	 145.23 MB/s	      98 B/op	       0 allocs/op
-BenchmarkFloor/large-10        	    2000	    678226 ns/op	 193.26 MB/s	      98 B/op	       0 allocs/op
-PASS
-ok  	github.com/zap-proto/bench	114.295s
+=== per-op benchmarks: NOT MEASURED ===
+Same reason. The B/op and allocs/op columns these would report are
+already covered by the allocation section above, which is valid at
+any load; only the ns/op column needs a quiet box, so the whole
+section waits for one.
 
 === environment after ===
-19:59  up 7 days,  7:46, 1 user, load averages: 208.59 154.46 128.68
+20:25  up 7 days,  8:12, 1 user, load averages: 102.13 109.55 126.89

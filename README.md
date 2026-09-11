@@ -49,17 +49,27 @@ go run ./cmd/zapbench -addr 127.0.0.1:8391 -c 64 -d 10s
 Its numbers are not in `bench-results.txt`: it measures a server you started,
 not the in-process arms above.
 
-## Reading the output
+## Counts always, rates only on a quiet machine
 
 Allocation counts and wire sizes are counts. They do not move with machine
-load and they repeat to the digit across runs. Throughput is a rate, and the
-stored run was taken on a machine at a load average of 122–190 across ten
-cores. In that run ZAP-HTTP at the 16-byte workload measured 10,408, 796 and
-4,018 req/s across three repetitions of the identical loop — a factor of
-thirteen — and the concurrent margins between the two fastest arms move by
-more than the margin itself between runs. `run.sh` records `uptime` before
-and after for exactly that reason. Take the allocation and wire columns as
-measurements; take the throughput columns as the conditions allow.
+load: across four runs taken between load 99 and load 208 on the same box,
+every allocation figure repeated to the tenth of a byte. Those sections run
+unconditionally.
+
+Throughput is a rate, and on a loaded machine it measures the scheduler. The
+run that first carried a throughput table here was taken at load 122–190 on
+ten cores, where the same 5,000-request loop returned 10,408, 796 and 4,018
+req/s in three consecutive repetitions — a factor of thirteen on identical
+work. Ratios did not survive it either: ZAP-HTTP against fasthttp came out
+1.32×, 0.93× and 1.28× at 256 B. That is not a close contest between two
+libraries, it is a busy CPU, and there is no way to read a transport result
+out of it.
+
+So `run.sh` checks the one-minute load average before it starts and skips the
+rate sections above two fifths of the core count — load 4 on a ten-core box.
+When it skips them the file says `NOT MEASURED` and why, in place of the
+table. A number absent from `bench-results.txt` was not measured; nothing
+here is ever estimated or carried over from an earlier run.
 
 ## License
 
