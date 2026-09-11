@@ -52,8 +52,12 @@ not the in-process arms above.
 ## Counts always, rates only on a quiet machine
 
 Allocation counts and wire sizes are counts. They do not move with machine
-load: across four runs taken between load 99 and load 208 on the same box,
-every allocation figure repeated to the tenth of a byte. Those sections run
+load. Across runs taken between load 99 and load 208 on the same box, the
+native arm reported 6.0 allocations per round trip in every repetition
+without exception, its byte figure never moved at the 16-byte workload, and
+at 64 KiB it spanned 131 264.8 to 131 268.9 — four bytes in a hundred and
+thirty thousand, which is `MemStats` granularity rather than an effect of
+load. Wire sizes are byte-identical every run. Those sections run
 unconditionally.
 
 Throughput is a rate, and on a loaded machine it measures the scheduler. The

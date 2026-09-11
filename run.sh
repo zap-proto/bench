@@ -6,12 +6,13 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-# Allocation counts and wire sizes are counts. They do not move with machine
-# load — they repeat to the digit across runs taken anywhere from load 1 to
-# load 200. Throughput is a rate, and on a busy box it measures the scheduler.
-# So the rate sections run only on a quiet machine and the count sections run
-# always, and the file says which it contains. A number that is missing here
-# was not measured; it was never estimated.
+# Allocation counts and wire sizes are counts, and they do not move with load:
+# between load 99 and load 208 the allocations-per-request figure never varied
+# at all and the bytes-per-request figure varied by four bytes in a hundred and
+# thirty thousand. Throughput is a rate, and on a busy box it measures the
+# scheduler. So the count sections run always and the rate sections run only on
+# a quiet machine, and the file says which it contains. A number missing here
+# was not measured; none is ever estimated.
 cores=$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo 1)
 load=$(uptime | sed 's/.*averages*: *//' | tr -d ',' | awk '{print $1}')
 # Quiet means most of the machine is idle: a one-minute load under two fifths
