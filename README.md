@@ -1,34 +1,65 @@
 # zap-proto/bench
 
-> **Docs:** [ZAP-HTTP benchmark](https://zap-proto.dev/docs/benchmarks) · part of the [ZAP Protocol](https://zap-proto.io)
+Allocation, wire-size and throughput comparison for the ZAP wire against
+HTTP/1.1, on loopback, in one Go test binary.
 
-Reproducible memory + latency benchmark comparing **ZAP-HTTP** to Go's `net/http`. Single TCP connection, request loop, p50/p95/p99/p999, RSS samples.
+Five arms answer the same request — a body plus a header set, echoed back
+with the `X-` headers — over a warm connection:
+
+| arm | client + server | wire |
+|---|---|---|
+| `net/http` | Go stdlib | HTTP/1.1 |
+| `fasthttp` | fasthttp | HTTP/1.1 |
+| `ZAP-HTTP` | fasthttp objects, `zap-proto/http` | ZAP |
+| `native ZAP` | `zap-proto/go` typed message | ZAP, length-prefixed |
+| `floor` | a byte echo, no protocol | length-prefixed |
+
+The `fasthttp` arm is what makes the ZAP number readable. fasthttp's object
+model is far cheaper than `net/http`'s on any wire, so a ZAP-vs-`net/http`
+ratio moves for two reasons at once. `ZAP-HTTP` against `fasthttp` isolates
+the wire; against `net/http` it says what a stdlib service would see if it
+moved. `floor` bounds everything from below: it is a lower bound on transport
+cost, not a protocol, and no number from it describes ZAP.
 
 ## Run
 
 ```bash
-go install github.com/zap-proto/bench/cmd/zapbench@latest
-zapbench -duration 30s -conns 64 -body 1KiB
+./run.sh > bench-results.txt 2>&1
 ```
 
-## Results
+`bench-results.txt` in this repository is the output of that command, in
+full, including the machine it ran on. A claim with no matching line in it
+has no evidence behind it.
 
-See full results on [zap-proto.dev/docs/benchmarks](https://zap-proto.dev/docs/benchmarks). TL;DR on commodity hardware (AMD 9950X, Linux 6.10):
+Every dependency is a published version, so a clone and `./run.sh` is the
+whole reproduction.
 
-| Metric | net/http | zap-http | ratio |
-|---|---|---|---|
-| p50 latency | 110 µs | **18 µs** | 6.1× |
-| p99 latency | 1.2 ms | **62 µs** | 19× |
-| RSS / 1k conn | 142 MiB | **23 MiB** | 6.2× |
-| req/s (1 core) | 184k | **1.1M** | 6.0× |
+## Load generator
 
-## Methodology
+`cmd/zapbench` drives a running `zap-proto/http` server the way bombardier
+drives an HTTP one — fixed warm keep-alive connections, a warm-up window
+excluded from the measurement, req/s with latency percentiles and client
+allocations per request. HTTP load tools cannot point at a ZAP server because
+they speak HTTP text and ZAP is a binary frame.
 
-- Single physical host, taskset to a dedicated core
-- Both servers identically configured for keep-alive
-- Same `BenchmarkBody` payload, same Content-Type
-- 60-sample warm-up, 30-sample measurement window
-- Numbers are reproducible — see `cmd/zapbench/README.md` for the exact reproduce script
+```bash
+go run ./cmd/zapbench -addr 127.0.0.1:8391 -c 64 -d 10s
+```
+
+Its numbers are not in `bench-results.txt`: it measures a server you started,
+not the in-process arms above.
+
+## Reading the output
+
+Allocation counts and wire sizes are counts. They do not move with machine
+load and they repeat to the digit across runs. Throughput is a rate, and the
+stored run was taken on a machine at a load average of 122–190 across ten
+cores. In that run ZAP-HTTP at the 16-byte workload measured 10,408, 796 and
+4,018 req/s across three repetitions of the identical loop — a factor of
+thirteen — and the concurrent margins between the two fastest arms move by
+more than the margin itself between runs. `run.sh` records `uptime` before
+and after for exactly that reason. Take the allocation and wire columns as
+measurements; take the throughput columns as the conditions allow.
 
 ## License
 

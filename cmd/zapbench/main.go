@@ -88,7 +88,7 @@ func run(addr, method, path string, body []byte, conns int, warmup, dur time.Dur
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
-			t := zaphttp.NewTransport(addr)
+			t := zaphttp.Dial("tcp", addr)
 			t.SetMaxIdleConns(2)
 			t.SetReadTimeout(30 * time.Second)
 			req := fasthttp.AcquireRequest()
