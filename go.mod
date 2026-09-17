@@ -1,6 +1,6 @@
 module github.com/zap-proto/bench
 
-go 1.26.5
+go 1.27.1
 
 require (
 	github.com/valyala/fasthttp v1.70.0
